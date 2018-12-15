@@ -23,6 +23,16 @@
   <body>
     <div class="x-body">
         <form class="layui-form">
+            <div class="layui-form-item">
+              <label for="username" class="layui-form-label">
+                  <span class="x-red">*</span>用户名
+              </label>
+              <div class="layui-input-inline">
+                  <input type="text" id="username" name="username" required="" lay-verify="required"
+                  autocomplete="off" class="layui-input">
+              </div>
+          </div>
+
           <div class="layui-form-item">
               <label for="L_email" class="layui-form-label">
                   <span class="x-red">*</span>邮箱
@@ -36,11 +46,11 @@
               </div>
           </div>
           <div class="layui-form-item">
-              <label for="L_username" class="layui-form-label">
-                  <span class="x-red">*</span>昵称
+              <label for="username" class="layui-form-label">
+                  <span class="x-red">*</span>地址
               </label>
               <div class="layui-input-inline">
-                  <input type="text" id="L_username" name="username" required="" lay-verify="nikename"
+                  <input type="text" id="username" name="username" required="" lay-verify="required"
                   autocomplete="off" class="layui-input">
               </div>
           </div>

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-  
+
   <head>
     <meta charset="UTF-8">
     <title>欢迎页面</title>
@@ -20,7 +20,7 @@
       <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
   </head>
-  
+
   <body>
     <div class="x-nav">
       <span class="layui-breadcrumb">
@@ -38,19 +38,14 @@
 {#          <input class="layui-input" placeholder="开始日" name="start" id="start">#}
 {#          <input class="layui-input" placeholder="截止日" name="end" id="end">#}
 {#        </form>#}
-        <form class="layui-form layui-col-md12 x-so" method="post">
-            <h3>用户名或ID查询：</h3>
-          <input id="username" type="text" name="username"  placeholder="请输入用户名" autocomplete="off" class="layui-input">
-          <button id='select' class="layui-btn"  lay-submit="/user-list/" ><i class="layui-icon">&#xe615;</i></button>
-
+        <form class="layui-form layui-col-md12 x-so">
+            <h3>查询结果</h3>
+          <button id='select' class="layui-btn"  lay-submit="" lay-filter="sreach"><i class="layui-icon">返回</i></button>
         </form>
 
       </div>
-      <xblock>
-        <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button>
-        <button class="layui-btn" onclick="x_admin_show('添加用户','./user-add.html',600,400)"><i class="layui-icon"></i>添加</button>
-        <span class="x-right" style="line-height:40px">共有数据：88 条</span>
-      </xblock>
+
+
       <table class="layui-table">
         <thead>
           <tr>
@@ -66,20 +61,17 @@
         </thead>
         <tbody>
 
-
-        {% for user in users %}
-            <tr>
+        <tr>
             <td>
               <div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id='2'><i class="layui-icon">&#xe605;</i></div>
             </td>
-            <td>{{ user.id }}</td>
-            <td>{{ user.username }}</td>
-            <td>{{ user.email }}</td>
-            <td>{{ user.address }}</td>
-            <td>{{ user.time }}</td>
-
-            <td class="td-manage">
-              <a title="编辑"  onclick="x_admin_show('编辑','user-edit.html',600,400)" href="javascript:;">
+            <td>{{ person.id }}</td>
+            <td>{{ person.username }}</td>
+            <td>{{ person.email }}</td>
+            <td>{{ person.address }}</td>
+            <td>{{ person.time }}</td>
+              <td class="td-manage">
+              <a title="编辑"  onclick="x_admin_show('编辑','./user-edit.html',600,400)" href="javascript:;">
                 <i class="layui-icon">&#xe642;</i>
               </a>
 
@@ -89,32 +81,16 @@
             </td>
           </tr>
 
-        {% endfor %}
-
-
-
-
-
 
 
         </tbody>
       </table>
-      <div class="page">
-        <div>
-          <a class="prev" href="">&lt;&lt;</a>
-          <a class="num" href="">1</a>
-          <span class="current">2</span>
-          <a class="num" href="">3</a>
-          <a class="num" href="">50</a>
-          <a class="next" href="">&gt;&gt;</a>
-        </div>
-      </div>
 
     </div>
     <script>
       layui.use('laydate', function(){
         var laydate = layui.laydate;
-        
+
         //执行一个laydate实例
         laydate.render({
           elem: '#start' //指定元素
@@ -139,7 +115,7 @@
       function delAll (argument) {
 
         var data = tableCheck.getData();
-  
+
         layer.confirm('确认要删除吗？'+data,function(index){
             //捉到所有被选中的，发异步进行删除
             layer.msg('删除成功', {icon: 1});
@@ -152,36 +128,8 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
     </script>
 
   </body>
 
 </html>
-
-
-{##}
-{#      $('#select').click(function () {#}
-{#          var $username=$('#username').val();#}
-{#          $.ajax({#}
-{#              url:'/user-list/',#}
-{#              type:"POST",#}
-{#              data:{#}
-{#                  "user":$username#}
-{#              },#}
-{#              success:function (data) {#}
-                  {#window.location.href='/user-list/'#}
-{#                  data#}
-{#              }#}
-{#          })#}
-{#      })#}
