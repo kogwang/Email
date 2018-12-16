@@ -3,7 +3,7 @@
   
   <head>
     <meta charset="UTF-8">
-    <title>欢迎页面</title>
+    <title>用户列表</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
@@ -49,7 +49,7 @@
       <xblock>
         <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button>
         <button class="layui-btn" onclick="x_admin_show('添加用户','./user-add.html',600,400)"><i class="layui-icon"></i>添加</button>
-        <span class="x-right" style="line-height:40px">共有数据：88 条</span>
+        <span class="x-right" style="line-height:40px">共有数据：{{ data['num'] }} 条</span>
       </xblock>
       <table class="layui-table">
         <thead>
@@ -67,10 +67,10 @@
         <tbody>
 
 
-        {% for user in users %}
+        {% for user in data['users'] %}
             <tr>
             <td>
-              <div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id='2'><i class="layui-icon">&#xe605;</i></div>
+              <div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id=''><i class="layui-icon">&#xe605;</i></div>
             </td>
             <td>{{ user.id }}</td>
             <td>{{ user.username }}</td>
@@ -79,13 +79,10 @@
             <td>{{ user.time }}</td>
 
             <td class="td-manage">
-              <a title="编辑"  onclick="x_admin_show('编辑','user-edit.html',600,400)" href="javascript:;">
+              <a  title="编辑"  onclick="x_admin_show('编辑','user-edit.html',600,400)" href="javascript:;">
                 <i class="layui-icon">&#xe642;</i>
               </a>
 
-              <a title="删除" onclick="member_del(this,'要删除的id')" href="javascript:;">
-                <i class="layui-icon">&#xe640;</i>
-              </a>
             </td>
           </tr>
 
@@ -101,12 +98,12 @@
       </table>
       <div class="page">
         <div>
-          <a class="prev" href="">&lt;&lt;</a>
-          <a class="num" href="">1</a>
+          <a class="prev" href="/user-list/">&lt;&lt;</a>
+          <a class="num" href="/user-list/?page=1">1</a>
           <span class="current">2</span>
-          <a class="num" href="">3</a>
-          <a class="num" href="">50</a>
-          <a class="next" href="">&gt;&gt;</a>
+          <a class="num" href="/user-list/?page=2">3</a>
+          <a class="num" href="/user-list/?page=3">50</a>
+          <a class="next" href="/user-list/?page=4">&gt;&gt;</a>
         </div>
       </div>
 
@@ -146,21 +143,6 @@
             $(".layui-form-checked").not('.header').parents('tr').remove();
         });
       }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     </script>
