@@ -10,6 +10,7 @@
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
     <link rel="stylesheet" href="../static/css/font.css">
     <link rel="stylesheet" href="../static/css/xadmin.css">
+      <link href="https://cdn.bootcss.com/twitter-bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet">
     <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
     <script type="text/javascript" src="../static/lib/layui/layui.js" charset="utf-8"></script>
     <script type="text/javascript" src="../static/js/xadmin.js"></script>
@@ -22,86 +23,97 @@
   
   <body>
     <div class="x-body">
-        <form class="layui-form">
+        <form class="layui-form" method="post" action="youjian">
 
           <div class="layui-form-item layui-form-text">
               <label for="desc" class="layui-form-label">
                   模版一：
               </label>
               <div class="layui-input-block">
-                  <textarea placeholder="模版一 模版一" id="desc" name="desc" class="layui-textarea"></textarea>
+
+                  <div class="input-group">
+                      <span class="input-group-addon">标题</span>
+                      <input type="text" class="form-control" value="模版一" aria-label="Amount (to the nearest dollar)" name="title">
+                      <span class="input-group-addon">0.0</span>
+                    </div>
+
+
+
+                  <textarea placeholder="模版一 模版一" id="desc" name="desc" class="layui-textarea">
+                      这是模版内容一
+                  </textarea>
               </div>
           </div>
-          <div class="layui-form-item">
+          <div class="layui-form-item" align='right'>
               <label for="L_repass" class="layui-form-label">
               </label>
-              <button  class="layui-btn" lay-filter="add" lay-submit="">
-                  发送
+              <button   class="layui-btn" lay-submit="">
+                  立即发送
               </button>
           </div>
       </form>
 
-        <form class="layui-form">
+        <form class="layui-form" method="post" action="youjian">
 
           <div class="layui-form-item layui-form-text">
               <label for="desc" class="layui-form-label">
                   模版二：
               </label>
               <div class="layui-input-block">
-                  <textarea placeholder="模版二 模版二" id="desc" name="desc" class="layui-textarea"></textarea>
+
+                  <div class="input-group">
+                      <span class="input-group-addon">标题</span>
+                      <input type="text" class="form-control" value="模版二" aria-label="Amount (to the nearest dollar)" name="title">
+                      <span class="input-group-addon">0.0</span>
+                    </div>
+
+
+
+                  <textarea placeholder="模版二 模版二" id="desc" name="desc" class="layui-textarea">
+                      这是模版内容二
+                  </textarea>
               </div>
           </div>
-          <div class="layui-form-item">
+          <div class="layui-form-item" align='right'>
               <label for="L_repass" class="layui-form-label">
               </label>
-              <button  class="layui-btn" lay-filter="add" lay-submit="">
-                  发送
+              <button   class="layui-btn" lay-submit="">
+                  立即发送
               </button>
           </div>
       </form>
 
-        <form class="layui-form">
+        <form class="layui-form" method="post" action="youjian">
 
           <div class="layui-form-item layui-form-text">
               <label for="desc" class="layui-form-label">
                   模版三：
               </label>
               <div class="layui-input-block">
-                  <textarea placeholder="模版三 模版三" id="desc" name="desc" class="layui-textarea"></textarea>
+
+                  <div class="input-group">
+                      <span class="input-group-addon">标题</span>
+                      <input type="text" class="form-control" value="模版三" aria-label="Amount (to the nearest dollar)" name="title">
+                      <span class="input-group-addon">0.0</span>
+                    </div>
+
+
+
+                  <textarea placeholder="模版三 模版三" id="desc" name="desc" class="layui-textarea">
+                      这是模版内容三
+                  </textarea>
               </div>
           </div>
-          <div class="layui-form-item">
+          <div class="layui-form-item" align='right'>
               <label for="L_repass" class="layui-form-label">
               </label>
-
-              <button class="layui-btn" onclick="x_admin_show('发送邮件','https://www.baidu.com',600,400)">发送</button>
-
+              <button   class="layui-btn" lay-submit="">
+                  立即发送
+              </button>
           </div>
       </form>
 
     </div>
 
-    <script>
-        layui.use(['form','layer'], function(){
-            $ = layui.jquery;
-          var form = layui.form
-          ,layer = layui.layer;
-        
-
-
-          //监听提交
-          form.on('submit(add)', function(data){
-            console.log(data);
-            //发异步，把数据提交给php
-            layer.alert("发送成功", {icon: 6},function () {
-                // 获得frame索引
-                var index = parent.layer.getFrameIndex(window.name);
-                //关闭当前frame
-                parent.layer.close(index);
-            });
-            return false;
-          });
-        });
-    </script>
   </body>
 </html>

@@ -1,4 +1,6 @@
+import smtplib
 import time
+from email.mime.text import MIMEText
 
 from flask import Blueprint, render_template, request
 
@@ -6,11 +8,26 @@ from App.models import User, db
 
 blue = Blueprint('email',__name__)
 
+#
+# #登录界面
+# @blue.route('/',methods=['GET',])
+# def login():
+#     return render_template('./login.html')
+
 
 #登录界面
-@blue.route('/',methods=['GET',])
+@blue.route('/',methods=['GET',"POST"])
 def login():
-    return render_template('./login.html')
+    if request.method=="POST":
+        if request.form.get('username')!='admin':
+            return render_template('./login.html')
+        if request.form.get('password')!='123456':
+            return render_template('./login.html')
+        return render_template('./index.html')
+    if request.method=='GET':
+        return render_template('./login.html')
+
+
 
 #index网页
 @blue.route('/index/',methods=['GET',])
@@ -25,14 +42,7 @@ def welcome():
 
 #用户列表
 @blue.route('/user-list/',methods=['GET','POST'])
-def user_list(page=None):
-    # print(page)
-
-    if page=='1':
-        return '1111'
-
-
-
+def user_list():
     users = User.query.filter_by(key=True)
     if request.method=="GET":
         num=0
@@ -66,7 +76,7 @@ def user_list(page=None):
 
 
 #已删除用户
-@blue.route('/user-del/',methods=['GET',])
+@blue.route('/user-del/',methods=['GET',"POST"])
 def user_del():
     users = User.query.filter_by(key=False)
     if request.method=="GET":
@@ -78,11 +88,52 @@ def user_del():
             'num':num
         }
     return render_template('./user-del.html',data=data)
+    if request.method=="POST":
+        start=request.form.get('start')
+        end=request.form.get('end')
+        print(start,end)
+
+
 
 #邮件模版
 @blue.route('/email-model/',methods=['GET',])
 def email_model():
     return render_template('./email_model.html')
+
+
+#封装邮箱发送
+def sendmail(recv, title, content):
+    username='kog365986211@163.com'
+    passwd='wangliguo1994'
+    msg = MIMEText(content)
+    msg['Subject'] = title
+    msg['From'] = username
+    msg['To'] = recv
+    mail_host = 'smtp.163.com'
+    port = 25
+    smtp = smtplib.SMTP(mail_host, port=port)
+    smtp.login(username, passwd)
+    smtp.sendmail(username, recv, msg.as_string())
+    smtp.quit()
+    print('Email Send Success.')
+
+#发送邮箱
+@blue.route('/email-model/youjian',methods=['POST',])
+def fasong():
+    if request.method=="POST":
+        title=request.form.get('title')
+        content=request.form.get('desc')
+        user=User.query.filter_by(key=True)
+
+        # 测试已经关闭
+        # for i in user:
+        #     email=i.email
+        #     sendmail(email,title,content)
+
+        print(title,content)
+        return render_template('./successful.html')
+    if request.method=='GET':
+        return render_template('./welcome.html')
 
 #收件人列表编辑
 @blue.route('/user-list/user-edit.html',methods=['GET',"POST"])
@@ -163,16 +214,20 @@ def select_user():
 
 
 
-
 #测试接口
 @blue.route('/test/')
 def test11():
-    names=User.query.all()
-    hehe=names[0].key
-    print(hehe)
+    if request.method=='GET':
+        names=User.query.all()
+        hehe=names[0].key
+        print(hehe)
 
-    return render_template('./1111111.html',names=names)
+        return render_template('./1111111.html',names=names)
+    if request.method=="POST":
+        id = request.args.get('id')
 
+        print(id)
+        return 'hehda'
 
 
 

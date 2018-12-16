@@ -33,17 +33,22 @@
     </div>
     <div class="x-body">
       <div class="layui-row">
-        <form class="layui-form layui-col-md12 x-so">
+        <form class="layui-form layui-col-md12 x-so" method="post">
           <input class="layui-input" placeholder="开始日" name="start" id="start">
           <input class="layui-input" placeholder="截止日" name="end" id="end">
           <input type="text" name="username"  placeholder="请输入用户名" autocomplete="off" class="layui-input">
-          <button class="layui-btn"  lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
+          <button class="layui-btn"  lay-submit="/user-del/" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
         </form>
       </div>
+
+
       <xblock>
         <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量恢复</button>
         <span class="x-right" style="line-height:40px">共有数据：{{ data['num'] }}  条</span>
       </xblock>
+
+
+
       <table class="layui-table">
         <thead>
           <tr>
@@ -66,7 +71,7 @@
             <td>
               <div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id='2'><i class="layui-icon">&#xe605;</i></div>
             </td>
-            <td>{{ user.id }}</td>
+            <td id="id">{{ user.id }}</td>
             <td>{{ user.username }}</td>
             <td>{{ user.email }}</td>
             <td>{{ user.address }}</td>
@@ -77,22 +82,24 @@
                             </span>
             <td class="td-manage">
 
-              <a title="永久删除" onclick="member_del(this,'1')" href="javascript:;">
-                <i class="layui-icon">&#xe640;</i>
-              </a>
+{#            <a id="del" title="永久删除" onclick="return del( );">#}
+{#                #}
+{#            </a>#}
+            <button id="del">  <i class="layui-icon" >&#xe640;</i>
 
-            <a href="" onclick="return del( );"><i class="layui-icon">&#xe640;</i></a>
-
-
+            </button>
 
             </td>
           </tr>
+
         {% endfor %}
-
-
 
         </tbody>
       </table>
+
+
+
+
       <div class="page">
         <div>
           <a class="prev" href="">&lt;&lt;</a>
@@ -105,6 +112,31 @@
       </div>
 
     </div>
+
+    <script type="text/javascript">
+		$("#del").click(function () {
+            var $id=$('#id').text()
+            $.ajax({
+                url:'/test/',
+                type:'POST',
+                data:{
+                    'id':$id
+                },
+                success:function (data) {
+                    alert($id)
+                    window.location.href='login.html'
+                }
+            })
+
+        })
+      </script>
+
+
+
+
+
+
+
     <script>
       layui.use('laydate', function(){
         var laydate = layui.laydate;
@@ -150,15 +182,17 @@
         s.parentNode.insertBefore(hm, s);
       })();</script>
 
-      <script type="text/javascript">
-		function del(){
-			if(confirm('确认要删除？'))
-			  {
-			    return true;
-			  }
-			    return false;
-		       }
-      </script>
+
+{#      <script type="text/javascript">#}
+{#		function del(){#}
+{#			if(confirm('确认要永久删除吗？'))#}
+{#			  {#}
+{#			    return true;#}
+{#			  }#}
+{#			    return false;#}
+{#		       }#}
+{#      </script>#}
+
 
 
 
