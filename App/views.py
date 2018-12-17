@@ -163,7 +163,7 @@ def model_add():
 @blue.route('/model-del/',methods=['GET',])
 def model_del():
     print('ssssssssss'*10)
-    return render_template('./model-del.html')
+    return render_template('./successful.html')
 
 #封装邮箱发送
 def sendmail(recv, title, content):
