@@ -67,7 +67,7 @@
         <tbody>
 
 
-        {% for user in data['users'] %}
+        {% for user in data['paginate'].items%}
             <tr>
             <td>
               <div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id=''><i class="layui-icon">&#xe605;</i></div>
@@ -98,12 +98,20 @@
       </table>
       <div class="page">
         <div>
-          <a class="prev" href="/user-list/">&lt;&lt;</a>
-          <a class="num" href="/user-list/?page=1">1</a>
-          <span class="current">2</span>
-          <a class="num" href="/user-list/?page=2">3</a>
-          <a class="num" href="/user-list/?page=3">50</a>
-          <a class="next" href="/user-list/?page=4">&gt;&gt;</a>
+          {% if data['paginate'].has_prev %}
+              <a class="prev" href="/user-list/?page={{ data['paginate'].prev_num }}">&lt;&lt;</a>
+              {% else %}
+              <a class="prev" href="#">&lt;&lt;</a>
+          {% endif %}
+          {% for page in data['paginate'].iter_pages() %}
+              <a class="num" href="/user-list/?page={{ page }}">{{ page }}</a>
+          {% endfor %}
+          {% if data['paginate'].has_next %}
+              <a class="next" href="/user-list/?page={{ data['paginate'].next_num }}">&gt;&gt;</a>
+              {% else %}
+              <a class="next" href="#">&gt;&gt;</a>
+          {% endif %}
+
         </div>
       </div>
 
@@ -136,9 +144,17 @@
       function delAll (argument) {
 
         var data = tableCheck.getData();
-  
         layer.confirm('确认要删除吗？'+data,function(index){
             //捉到所有被选中的，发异步进行删除
+            var data2 = {'data':JSON.stringify({id:data})};
+            $.ajax({
+               url:/delUser/,
+               type:'POST',
+               data: data2,
+               success: function (data) {
+                   location.href='/user-list/';
+               }
+            });
             layer.msg('删除成功', {icon: 1});
             $(".layui-form-checked").not('.header').parents('tr').remove();
         });

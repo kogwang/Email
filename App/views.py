@@ -1,8 +1,10 @@
+import json
 import smtplib
 import time
 from email.mime.text import MIMEText
 
 from flask import Blueprint, render_template, request
+from flask.json import jsonify
 
 from App.models import User, db
 
@@ -39,18 +41,31 @@ def index():
 def welcome():
     return render_template('./welcome.html')
 
+#删除用户
+@blue.route('/delUser/',methods=['POST'])
+def delUser():
+    user_id = json.loads(request.form.get('data'))
+    for userid in user_id['id']:
+        user = User.query.filter(User.id==int(userid)).first()
+        user.key=0
+        db.session.add(user)
+        db.session.commit()
+    return jsonify(code=0,message='ok')
 
 #用户列表
 @blue.route('/user-list/',methods=['GET','POST'])
 def user_list():
     users = User.query.filter_by(key=True)
+    page = int(request.args.get('page') or 1)
+    paginate = users.paginate(page, 4, False)
     if request.method=="GET":
         num=0
         for i in users:
             num+=1
         data={
             'users':users,
-            'num':num
+            'num':num,
+            'paginate':paginate
         }
         return render_template('./user-list.html',data=data)
     if request.method=="POST":
@@ -73,19 +88,36 @@ def user_list():
             }
             return render_template('./select-user.html',person=data)
             # return '未查询到此用户'
+# @blue.route('/findaByPage/')
+# def findByPage():
+#     page = int(request.args.get('page') or 1)
+#     uspage = User.query.paginate(page,4,False)
 
+@blue.route('/recoverUser/',methods=['POST'])
+def recoverUser():
+    user_id = json.loads(request.form.get('data'))
+    print(user_id)
+    for userid in user_id['id']:
+        user = User.query.filter(User.id==int(userid)).first()
+        user.key=1
+        db.session.add(user)
+        db.session.commit()
+    return jsonify(code=0,message='ok')
 
 #已删除用户
 @blue.route('/user-del/',methods=['GET',"POST"])
 def user_del():
     users = User.query.filter_by(key=False)
+    page = int(request.args.get('page') or 1)
+    paginate = users.paginate(page, 4, False)
     if request.method=="GET":
         num=0
         for i in users:
             num+=1
         data={
             'users':users,
-            'num':num
+            'num':num,
+            'paginate': paginate
         }
     return render_template('./user-del.html',data=data)
     if request.method=="POST":

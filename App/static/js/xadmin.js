@@ -51,7 +51,7 @@ $(function () {
             var obj = $(".layui-form-checked").not('.header');
             var arr=[];
             obj.each(function(index, el) {
-                arr.push(obj.eq(index).attr('data-id'));
+                arr.push(obj.eq(index).parent().next().text());
             });
             return arr;
         }
