@@ -93,6 +93,7 @@ def user_list():
 #     page = int(request.args.get('page') or 1)
 #     uspage = User.query.paginate(page,4,False)
 
+# 逻辑删除用户
 @blue.route('/recoverUser/',methods=['POST'])
 def recoverUser():
     user_id = json.loads(request.form.get('data'))
@@ -259,7 +260,7 @@ def user_add():
         user.key=1
         db.session.add(user)
         db.session.commit()
-        return '添加成功'
+        return render_template('./successful.html')
 
 #查询到的用户
 @blue.route('/select-user/',methods=['GET',])

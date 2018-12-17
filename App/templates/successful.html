@@ -2,24 +2,30 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>发送成功</title>
+    <title>操作成功</title>
     <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
     <link href="https://cdn.bootcss.com/twitter-bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet">
 
 
     <script type="text/javascript">
     onload=function () {
-        setTimeout(go,3000);
+        setTimeout(x_admin_close,3000);
     };
-    function go() {
-        location.href='.'
+
+
+
+    /*关闭弹出框口*/
+    function x_admin_close(){
+        var index = parent.layer.getFrameIndex(window.name);
+        parent.layer.close(index);
     }
+
     </script>
 
 
 
 </head>
 <body>
-    发送成功 3秒后跳转。。。。。
+    操作成功 3秒后自动关闭。。。。。
 </body>
 </html>
