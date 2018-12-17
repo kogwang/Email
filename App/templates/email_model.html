@@ -22,7 +22,31 @@
   </head>
   
   <body>
+
+  <div class="x-nav">
+      <span class="layui-breadcrumb">
+        <a href="">首页</a>
+        <a href="">演示</a>
+        <a>
+          <cite>导航元素</cite></a>
+      </span>
+      <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right" href="javascript:location.replace(location.href);" title="刷新">
+        <i class="layui-icon" style="line-height:30px">ဂ</i></a>
+    </div>
+
+
+
+
     <div class="x-body">
+
+
+        <button class="layui-btn layui-btn-danger x-right" onclick="x_admin_show('删除模版','/model-del/',600,400)"><i class="layui-icon"></i>删除</button>
+        <button class="layui-btn x-right" onclick="x_admin_show('添加模版','../model-add/',600,400)"><i class="layui-icon"></i>添加</button>
+        <span style="line-height:60px">模版数： {{ data['num'] }} 个</span>
+
+
+
+
         <form class="layui-form" method="post" action="youjian">
 
           <div class="layui-form-item layui-form-text">
@@ -39,7 +63,7 @@
 
 
 
-                  <textarea placeholder="模版一 模版一" id="desc" name="desc" class="layui-textarea">
+                  <textarea placeholder="此为默认模版" id="desc" name="desc" class="layui-textarea">
                       这是模版内容一
                   </textarea>
               </div>
@@ -53,24 +77,27 @@
           </div>
       </form>
 
-        <form class="layui-form" method="post" action="youjian">
+
+
+        {% for model in data['models'] %}
+            <form class="layui-form" method="post" action="youjian">
 
           <div class="layui-form-item layui-form-text">
               <label for="desc" class="layui-form-label">
-                  模版二：
+                  {{ model.model_name }}：
               </label>
               <div class="layui-input-block">
 
                   <div class="input-group">
                       <span class="input-group-addon">标题</span>
-                      <input type="text" class="form-control" value="模版二" aria-label="Amount (to the nearest dollar)" name="title">
+                      <input type="text" class="form-control" value="{{ model.title }}" aria-label="Amount (to the nearest dollar)" name="title">
                       <span class="input-group-addon">0.0</span>
                     </div>
 
 
 
-                  <textarea placeholder="模版二 模版二" id="desc" name="desc" class="layui-textarea">
-                      这是模版内容二
+                  <textarea placeholder="{{ model.model_name }}" id="desc" name="desc" class="layui-textarea">
+                      {{ model.msg }}
                   </textarea>
               </div>
           </div>
@@ -82,38 +109,10 @@
               </button>
           </div>
       </form>
-
-        <form class="layui-form" method="post" action="youjian">
-
-          <div class="layui-form-item layui-form-text">
-              <label for="desc" class="layui-form-label">
-                  模版三：
-              </label>
-              <div class="layui-input-block">
-
-                  <div class="input-group">
-                      <span class="input-group-addon">标题</span>
-                      <input type="text" class="form-control" value="模版三" aria-label="Amount (to the nearest dollar)" name="title">
-                      <span class="input-group-addon">0.0</span>
-                    </div>
-
-
-
-                  <textarea placeholder="模版三 模版三" id="desc" name="desc" class="layui-textarea">
-                      这是模版内容三
-                  </textarea>
-              </div>
-          </div>
-          <div class="layui-form-item" align='right'>
-              <label for="L_repass" class="layui-form-label">
-              </label>
-              <button   class="layui-btn" lay-submit="">
-                  立即发送
-              </button>
-          </div>
-      </form>
+        {% endfor %}
 
     </div>
+
 
   </body>
 </html>

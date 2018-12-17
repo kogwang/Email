@@ -6,7 +6,7 @@ from email.mime.text import MIMEText
 from flask import Blueprint, render_template, request
 from flask.json import jsonify
 
-from App.models import User, db
+from App.models import User, db, Models
 
 blue = Blueprint('email',__name__)
 
@@ -130,8 +130,39 @@ def user_del():
 #邮件模版
 @blue.route('/email-model/',methods=['GET',])
 def email_model():
-    return render_template('./email_model.html')
+    # return render_template('./email_model.html')
+    models = Models.query.filter_by(key=True)
+    num = 1
+    for i in models:
+        num += 1
+    data = {
+        'models': models,
+        'num': num
+    }
 
+    return render_template('./email_model.html', data=data)
+
+# 添加模版
+@blue.route('/model-add/',methods=["GET",'POST'])
+def model_add():
+    if request.method=="GET":
+        return render_template('./model-add.html')
+    if request.method=="POST":
+        model_name=request.form.get('model_name')
+        model_title=request.form.get('model_title')
+        model_msg=request.form.get('model_msg')
+
+
+        print(model_name,model_title,model_msg)
+
+        return render_template('./successful.html')
+
+
+# 删除模版
+@blue.route('/model-del/',methods=['GET',])
+def model_del():
+    print('ssssssssss'*10)
+    return render_template('./model-del.html')
 
 #封装邮箱发送
 def sendmail(recv, title, content):

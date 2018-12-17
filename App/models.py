@@ -14,4 +14,11 @@ class User(db.Model):
     key = db.Column(db.Boolean,default=True)
 
 
-
+# 邮件模版表
+class Models(db.Model):
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    title = db.Column(db.String(50))
+    model_name = db.Column(db.String(20))
+    msg = db.Column(db.String(1000),default='模版未编辑')
+    time = db.Column(db.String(100))
+    key = db.Column(db.Boolean, default=True)
