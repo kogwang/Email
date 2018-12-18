@@ -28,30 +28,19 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>模版一</td>
-                            <td>12：12：12</td>
-                            <td>9</td>
-                            <td>0</td>
 
-                            <td>20</td>
-                        </tr>
-                        <tr>
-                            <td>模版二</td>
-                            <td>0</td>
-                            <td>0</td>
-                            <td>0</td>
+                        {% for model in models %}
+                            <tr>
+                            <td>{{ model.model_name }}</td>
+                            <td>{{ model.last_date }}</td>
+                            <td>{{ model.last_time }}</td>
+                            <td>{{ model.jishi }}</td>
 
-                            <td>0</td>
+                            <td>{{ model.count }}</td>
                         </tr>
-                        <tr>
-                            <td>模版三</td>
-                            <td>2</td>
-                            <td>0</td>
-                            <td>0</td>
+                        {% endfor %}
 
-                            <td>0</td>
-                        </tr>
+
                     </tbody>
                 </table>
               </div>

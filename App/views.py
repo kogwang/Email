@@ -39,7 +39,8 @@ def index():
 #右侧统计内容
 @blue.route('/welcome/',methods=['GET',])
 def welcome():
-    return render_template('./welcome.html')
+    models=Models.query.filter_by(key=1)
+    return render_template('./welcome.html',models=models)
 
 #逻辑删除用户
 @blue.route('/delUser/',methods=['POST'])
@@ -254,7 +255,8 @@ def fasong():
         #     sendmail(email,title,content)
 
         print(title,content)
-        return render_template('./successful.html')
+        # return render_template('./successful.html')
+        return '发送成功！！'
     if request.method=='GET':
         return render_template('./welcome.html')
 
