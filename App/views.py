@@ -109,6 +109,11 @@ def recoverUser():
 #已删除用户
 @blue.route('/user-del/',methods=['GET',"POST"])
 def user_del():
+    if request.method=='POST':
+        start = request.form.get('start')
+        end = request.form.get('end')
+        print(start,end)
+
     users = User.query.filter_by(key=False)
     page = int(request.args.get('page') or 1)
     paginate = users.paginate(page, 4, False)
@@ -121,11 +126,8 @@ def user_del():
             'num':num,
             'paginate': paginate
         }
-    return render_template('./user-del.html',data=data)
-    if request.method=="POST":
-        start=request.form.get('start')
-        end=request.form.get('end')
-        print(start,end)
+        return render_template('./user-del.html',data=data)
+
 
 # 数据库内删除用户
 @blue.route('/foreverDel/',methods=['POST'])
@@ -192,17 +194,6 @@ def model_add():
 
         return render_template('./successful.html')
 
-    # email = request.form.get('email')
-    # address = request.form.get('address')
-    # user.username = username
-    # user.email = email
-    # user.address = address
-    # t = time.localtime()
-    # T = "{}:{}:{}".format(t.tm_hour, t.tm_min, t.tm_sec)
-    # user.time = T
-    # user.key = 1
-    # db.session.add(user)
-    # db.session.commit()
 
 
 # 删除模版
@@ -252,11 +243,11 @@ def fasong():
 
         id_model=Models.query.filter(Models.model_name==model_name).first()
         num = id_model.count
-        print(num,type(num))
+
         # 此处每次执行计数
         num2=int(num)+1
         id_model.count=num2
-        # 此处每次执行 日期 和 时间
+        # 此处每次最后的执行日期和时间
         t = time.localtime()
         last_data = "{}-{}-{}".format(t.tm_year, t.tm_mon, t.tm_mday)
         last_time = "{}:{}:{}".format(t.tm_hour, t.tm_min, t.tm_sec)
@@ -266,16 +257,28 @@ def fasong():
         db.session.add(id_model)
         db.session.commit()
 
-        db.session.add(id_model)
-        db.session.commit()
-        # 测试已经关闭
-        # for i in user:
-        #     email=i.email
-        #     sendmail(email,title,content)
+        t = request.form.get('time')
+        if not len(t):
 
-        print(title,content)
-        # return render_template('./successful.html')
-        return '发送成功！！'
+        # 测试已经关闭
+
+            # for i in user:
+            #     email=i.email
+            #     sendmail(email,title,content)
+            # return '发送成功。。。。。'
+
+            pass
+
+        sec = int(t)*60
+
+
+
+
+
+
+
+
+
     if request.method=='GET':
         return render_template('./welcome.html')
 

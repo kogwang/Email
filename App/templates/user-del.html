@@ -162,7 +162,7 @@
 
       /*用户-删除*/
       function member_del(obj){
-          layer.confirm('确认要删除吗？',function(index){
+          layer.confirm('确认要永久删除吗？',function(index){
               //发异步删除数据
               $(obj).parents('tr').remove();
               var tr = $(obj).parents('tr');
