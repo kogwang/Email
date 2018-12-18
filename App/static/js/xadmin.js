@@ -54,7 +54,7 @@ $(function () {
                 arr.push(obj.eq(index).parent().next().text());
             });
             return arr;
-        }
+        },
     }
 
     //开启表格多选

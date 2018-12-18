@@ -43,7 +43,7 @@
 
 
       <xblock>
-        <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量恢复</button>
+        <button class="layui-btn layui-btn-danger" onclick="recoverUser()"><i class="layui-icon"></i>批量恢复</button>
         <span class="x-right" style="line-height:40px">共有数据：{{ data['num'] }}  条</span>
       </xblock>
 
@@ -85,7 +85,7 @@
 {#            <a id="del" title="永久删除" onclick="return del( );">#}
 {#                #}
 {#            </a>#}
-            <button id="del">  <i class="layui-icon" >&#xe640;</i>
+            <button id="del" onclick="member_del(this)">  <i class="layui-icon" >&#xe640;</i>
 
             </button>
 
@@ -147,7 +147,7 @@
     <script>
       layui.use('laydate', function(){
         var laydate = layui.laydate;
-        
+
         //执行一个laydate实例
         laydate.render({
           elem: '#start' //指定元素
@@ -161,17 +161,28 @@
 
 
       /*用户-删除*/
-      function member_del(obj,id){
+      function member_del(obj){
           layer.confirm('确认要删除吗？',function(index){
               //发异步删除数据
-              $(obj).parents("tr").remove();
+              $(obj).parents('tr').remove();
+              var tr = $(obj).parents('tr');
+              var data = tr.children('td').eq(1).text();
+              var data2 = {'data':JSON.stringify({id:data})};
+              $.ajax({
+               url:/foreverDel/,
+               type:'POST',
+               data: data2,
+               success: function (data) {
+                   location.href='/user-del/';
+               }
+            });
               layer.msg('已删除!',{icon:1,time:1000});
           });
       }
 
 
 
-      function delAll (argument) {
+      function recoverUser (argument) {
 
         var data = tableCheck.getData();
   

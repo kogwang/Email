@@ -75,7 +75,7 @@
                 <i class="layui-icon">&#xe642;</i>
               </a>
 
-              <a title="删除" onclick="member_del(this,'要删除的id')" href="javascript:;">
+              <a title="删除" onclick="member_del(this)" href="javascript:;">
                 <i class="layui-icon">&#xe640;</i>
               </a>
             </td>
@@ -104,10 +104,21 @@
 
 
       /*用户-删除*/
-      function member_del(obj,id){
+      function member_del(obj){
           layer.confirm('确认要删除吗？',function(index){
               //发异步删除数据
               $(obj).parents("tr").remove();
+              var tr = $(obj).parents('tr');
+              var data = tr.children('td').eq(1).text();
+              var data2 = {'data':JSON.stringify({id:data})};
+              $.ajax({
+               url:/delUser/,
+               type:'POST',
+               data: data2,
+               success: function (data) {
+                   location.href='#';
+               }
+            });
               layer.msg('已删除!',{icon:1,time:1000});
           });
       }

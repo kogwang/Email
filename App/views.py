@@ -41,7 +41,7 @@ def index():
 def welcome():
     return render_template('./welcome.html')
 
-#删除用户
+#逻辑删除用户
 @blue.route('/delUser/',methods=['POST'])
 def delUser():
     user_id = json.loads(request.form.get('data'))
@@ -93,7 +93,7 @@ def user_list():
 #     page = int(request.args.get('page') or 1)
 #     uspage = User.query.paginate(page,4,False)
 
-# 逻辑删除用户
+# 逻辑恢复用户
 @blue.route('/recoverUser/',methods=['POST'])
 def recoverUser():
     user_id = json.loads(request.form.get('data'))
@@ -126,6 +126,15 @@ def user_del():
         end=request.form.get('end')
         print(start,end)
 
+# 数据库内删除用户
+@blue.route('/foreverDel/',methods=['POST'])
+def foreverDel():
+    user_id = json.loads(request.form.get('data'))['id']
+    user = User.query.filter(User.id==int(user_id)).first()
+    db.session.delete(user)
+    db.session.commit()
+    return jsonify(code=0,message='ok')
+
 
 
 #邮件模版
@@ -154,9 +163,38 @@ def model_add():
         model_msg=request.form.get('model_msg')
 
 
-        print(model_name,model_title,model_msg)
+        model=Models()
+        model.model_name=model_name
+        model.title=model_title
+        model.msg=model_msg
+
+        t=time.localtime()
+        last_data="{}-{}-{}".format(t.tm_year,t.tm_mon,t.tm_mday)
+        last_time="{}:{}:{}".format(t.tm_hour,t.tm_min,t.tm_sec)
+
+        model.last_date=last_data
+        model.last_time=last_time
+        model.key=0
+        model.count=0
+
+        db.session.add(model)
+        db.session.commit()
+
+        print(model_name,model_title,model_msg,last_time,last_data)
 
         return render_template('./successful.html')
+
+    # email = request.form.get('email')
+    # address = request.form.get('address')
+    # user.username = username
+    # user.email = email
+    # user.address = address
+    # t = time.localtime()
+    # T = "{}:{}:{}".format(t.tm_hour, t.tm_min, t.tm_sec)
+    # user.time = T
+    # user.key = 1
+    # db.session.add(user)
+    # db.session.commit()
 
 
 # 删除模版
