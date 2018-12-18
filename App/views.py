@@ -143,7 +143,7 @@ def foreverDel():
 def email_model():
     # return render_template('./email_model.html')
     models = Models.query.filter_by(key=True)
-    num = 1
+    num = 0
     for i in models:
         num += 1
     data = {
@@ -242,13 +242,32 @@ def sendmail(recv, title, content):
     print('Email Send Success.')
 
 #发送邮箱
-@blue.route('/email-model/youjian',methods=['POST',])
+@blue.route('/email-model/youjian',methods=['POST',"GET"])
 def fasong():
     if request.method=="POST":
         title=request.form.get('title')
         content=request.form.get('desc')
         user=User.query.filter_by(key=True)
+        model_name=request.form.get('model_name')
 
+        id_model=Models.query.filter(Models.model_name==model_name).first()
+        num = id_model.count
+        print(num,type(num))
+        # 此处每次执行计数
+        num2=int(num)+1
+        id_model.count=num2
+        # 此处每次执行 日期 和 时间
+        t = time.localtime()
+        last_data = "{}-{}-{}".format(t.tm_year, t.tm_mon, t.tm_mday)
+        last_time = "{}:{}:{}".format(t.tm_hour, t.tm_min, t.tm_sec)
+        id_model.last_data=last_data
+        id_model.last_time=last_time
+
+        db.session.add(id_model)
+        db.session.commit()
+
+        db.session.add(id_model)
+        db.session.commit()
         # 测试已经关闭
         # for i in user:
         #     email=i.email

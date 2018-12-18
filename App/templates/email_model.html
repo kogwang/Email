@@ -47,38 +47,6 @@
 
 
 
-        <form class="layui-form" method="post" action="youjian">
-
-          <div class="layui-form-item layui-form-text">
-              <label for="desc" class="layui-form-label">
-                  模版一：
-              </label>
-              <div class="layui-input-block">
-
-                  <div class="input-group">
-                      <span class="input-group-addon">标题</span>
-                      <input type="text" class="form-control" value="模版一" aria-label="Amount (to the nearest dollar)" name="title">
-                      <span class="input-group-addon">0.0</span>
-                    </div>
-
-
-
-                  <textarea placeholder="此为默认模版" id="desc" name="desc" class="layui-textarea">
-                      这是模版内容一
-                  </textarea>
-              </div>
-          </div>
-          <div class="layui-form-item" align='right'>
-              <label for="L_repass" class="layui-form-label">
-              </label>
-              <button   class="layui-btn" lay-submit="">
-                  立即发送
-              </button>
-          </div>
-      </form>
-
-
-
         {% for model in data['models'] %}
             <form class="layui-form" method="post" action="youjian">
 
@@ -86,6 +54,7 @@
               <label for="desc" class="layui-form-label">
                   {{ model.model_name }}：
               </label>
+              <input type="hidden" name="model_name" value="{{ model.model_name }}">
               <div class="layui-input-block">
 
                   <div class="input-group">
