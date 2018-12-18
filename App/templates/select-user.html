@@ -71,7 +71,7 @@
             <td>{{ person.address }}</td>
             <td>{{ person.time }}</td>
               <td class="td-manage">
-              <a title="编辑"  onclick="x_admin_show('编辑','./user-edit.html',600,400)" href="javascript:;">
+              <a title="编辑"  onclick="getId(this);x_admin_show('编辑','./user-edit.html',600,400)" href="javascript:;">
                 <i class="layui-icon">&#xe642;</i>
               </a>
 
@@ -105,12 +105,16 @@
 
       /*用户-删除*/
       function member_del(obj){
-          layer.confirm('确认要删除吗？',function(index){
+          var tr = $(obj).parents('tr');
+          var data = tr.children('td').eq(1).text();
+          var data2 = {'data':JSON.stringify({id:data})};
+          if(data=='未查询到此用户'){
+              return false
+          }
+          else{
+              layer.confirm('确认要删除吗？',function(index){
               //发异步删除数据
               $(obj).parents("tr").remove();
-              var tr = $(obj).parents('tr');
-              var data = tr.children('td').eq(1).text();
-              var data2 = {'data':JSON.stringify({id:data})};
               $.ajax({
                url:/delUser/,
                type:'POST',
@@ -121,8 +125,21 @@
             });
               layer.msg('已删除!',{icon:1,time:1000});
           });
+          }
       }
 
+      function getId(obj) {
+          var tr = $(obj).parents('tr');
+          var data = tr.children('td').eq(1).text();
+          var data2 = {'data': JSON.stringify({id: data})};
+          $.ajax({
+           url:'/getId/',
+           type:'POST',
+           data: data2,
+           success: function (data) {
+           }
+        });
+      }
       function delAll (argument) {
 
         var data = tableCheck.getData();

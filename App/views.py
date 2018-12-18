@@ -282,38 +282,64 @@ def fasong():
     if request.method=='GET':
         return render_template('./welcome.html')
 
-#收件人列表编辑
+
+#给编辑页面添加ID值
+lt = []
+@blue.route('/getId/',methods=['POST'])
+def putId():
+    user_id = json.loads(request.form.get('data'))['id']
+    print(user_id)
+    if lt:
+        lt.clear()
+    lt.append(user_id)
+    return jsonify(code=0,message='ok')
+
+
+
+
+#修改编辑用户
 @blue.route('/user-list/user-edit.html',methods=['GET',"POST"])
 def user_edit():
     if request.method=='GET':
         return render_template('./user-edit.html')
     if request.method=="POST":
+        print(lt)
+        id = lt[0]
+        user = User.query.filter(User.id==id).first()
         username=request.form.get('username')
         email=request.form.get('email')
         address=request.form.get('address')
 
-        id = request.form.get('id')
-        user=User.query.filter_by(id=id)
-        for i in user:
-            if i.id==id:
-                # 此时user对象就是要修改的用户 执行以下代码
-                pass
-
+        # 判断数据库是否存在
+        sql_user = User.query.filter_by(username=username)
+        for i in sql_user:
+            if i.username == username:
+                return render_template('./2222.html')
 
         if username:
             if address:
-                print(username, email, address)
-                return '全写了'
-            else:
-                print(username, email, address)
-                return '写了 useranme email'
+                user.username = username
+                user.email = email
+                user.address = address
+                db.session.add(user)
+                db.session.commit()
+                return render_template('./successful.html')
+            user.username = username
+            user.email = email
+            db.session.add(user)
+            db.session.commit()
+            return render_template('./successful.html')
         if address:
-            print(username, email, address)
-            return '写了 address email'
-
-        print(username, email, address)
-
-        return '只有email'
+            user.email = email
+            user.address = address
+            db.session.add(user)
+            db.session.commit()
+            return render_template('./successful.html')
+        if email:
+            user.email = email
+            db.session.add(user)
+            db.session.commit()
+            return render_template('./successful.html')
 
 
 #增加用户弹框
@@ -327,7 +353,7 @@ def user_add():
         sql_user=User.query.filter_by(username=username)
         for i in sql_user:
             if i.username==username:
-                return render_template('./yicunzai.html')
+                return render_template('./2222.html')
             # s_name=sql_user[0].username
             # print(s_name)
             # if username==s_name:
