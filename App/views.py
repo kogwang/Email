@@ -174,8 +174,15 @@ def model_add():
 
         model.last_date=last_data
         model.last_time=last_time
-        model.key=0
+        model.key=1
         model.count=0
+
+        sql_model=Models.query.filter_by(model_name=model_name)
+        for i in sql_model:
+            if i.model_name==model_name:
+                return render_template('./yicunzai.html')
+
+
 
         db.session.add(model)
         db.session.commit()
@@ -198,10 +205,24 @@ def model_add():
 
 
 # 删除模版
-@blue.route('/model-del/',methods=['GET',])
+@blue.route('/model-del/',methods=['GET',"POST"])
 def model_del():
-    print('ssssssssss'*10)
-    return render_template('./successful.html')
+    # print('ssssssssss'*10)
+    if request.method=="GET":
+        return render_template('./model-del.html')
+    if request.method=="POST":
+        model_name=request.form.get('model_name')
+        model = Models.query.filter_by(model_name=model_name).first()
+        if not model:
+            return render_template('./bucunzai.html')
+        db.session.delete(model)
+        db.session.commit()
+        return render_template('./successful.html')
+
+
+
+
+
 
 #封装邮箱发送
 def sendmail(recv, title, content):
@@ -282,7 +303,7 @@ def user_add():
         sql_user=User.query.filter_by(username=username)
         for i in sql_user:
             if i.username==username:
-                return '数据库已存在该用户'
+                return render_template('./yicunzai.html')
             # s_name=sql_user[0].username
             # print(s_name)
             # if username==s_name:
