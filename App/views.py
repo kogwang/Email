@@ -258,17 +258,15 @@ def fasong():
         db.session.commit()
 
         t = request.form.get('time')
+        # 此处没有时间限制 直接发送
         if not len(t):
-
-        # 测试已经关闭
-
             # for i in user:
             #     email=i.email
             #     sendmail(email,title,content)
             # return '发送成功。。。。。'
-
             pass
 
+        # 以下有时间限制 定时发送
         sec = int(t)*60
 
 
