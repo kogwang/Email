@@ -1,5 +1,6 @@
 import json
 import smtplib
+import threading
 import time
 from email.mime.text import MIMEText
 
@@ -253,28 +254,33 @@ def fasong():
         last_time = "{}:{}:{}".format(t.tm_hour, t.tm_min, t.tm_sec)
         id_model.last_data=last_data
         id_model.last_time=last_time
-
         db.session.add(id_model)
         db.session.commit()
 
         t = request.form.get('time')
+
+        def email_():
+            for i in user:
+                email=i.email
+                sendmail(email,title,content)
+
+
         # 此处没有时间限制 直接发送
         if not len(t):
-            # for i in user:
-            #     email=i.email
-            #     sendmail(email,title,content)
-            # return '发送成功。。。。。'
-            pass
+            id_model.jishi = 0
+            db.session.add(id_model)
+            db.session.commit()
+            email_()
+            return '发送成功。。。。'
 
         # 以下有时间限制 定时发送
-        sec = int(t)*60
-
-
-
-
-
-
-
+        sec = float(t)*60
+        timer=threading.Timer(sec,email_)
+        timer.start()
+        id_model.jishi=1
+        db.session.add(id_model)
+        db.session.commit()
+        return '发送成功。。。。'
 
 
     if request.method=='GET':
